@@ -12,7 +12,9 @@ function TimeChallengeOptions(props) {
   const [checked, setChecked] = React.useState(true);
 
   const handleChange = (event) => {
-    setChecked(event.target.checked);
+    {
+      props.changeDifficulty(event.target.value);
+    }
   };
 
   return (
@@ -35,29 +37,18 @@ function TimeChallengeOptions(props) {
           Stop
         </Button>
       )}
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <FormControl>
-          <FormLabel id="radio-buttons-group-label" />
-          <RadioGroup
-            aria-labelledby="radio-buttons-group-label"
-            defaultValue="easy"
-            name="radio-buttons-group"
-          >
-            <FormControlLabel value="easy" control={<Radio />} label="Easy" />
-            <FormControlLabel value="hard" control={<Radio />} label="Hard" />
-          </RadioGroup>
-        </FormControl>
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox onChange={handleChange} />}
-            label="Addition"
-          />
-          <FormControlLabel
-            control={<Checkbox onChange={handleChange} />}
-            label="Multiplication"
-          />
-        </FormGroup>
-      </Box>
+      <FormGroup>
+        <FormControlLabel
+          control={<Checkbox defaultChecked />}
+          label="Addition"
+          onClick={props.setAddition}
+        />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Multiplication"
+          onClick={props.setMulti}
+        />
+      </FormGroup>
     </Box>
   );
 }
@@ -75,16 +66,10 @@ function TimeChallengeTimer(props) {
   );
 }
 
-function TimeChallenge() {
+function TimeChallenge(props) {
   const defaultTime = 3;
   const [isActive, setIsActive] = useState(false);
-  const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(defaultTime);
-
-  // React.useEffect(() => {
-  //   const timer = time > 0 && setInterval(() => setTime(time - 1), 1000);
-  //   return () => clearInterval(timer);
-  // }, [time]);
 
   React.useEffect(() => {
     let interval = null;
@@ -107,11 +92,6 @@ function TimeChallenge() {
 
   const handleStart = () => {
     setIsActive(true);
-    setIsPaused(false);
-  };
-
-  const handlePauseResume = () => {
-    setIsPaused(!isPaused);
   };
 
   const handleStop = () => {
@@ -126,6 +106,8 @@ function TimeChallenge() {
         active={isActive}
         handleStart={handleStart}
         handleStop={handleStop}
+        setMulti={props.setMulti}
+        setAddition={props.setAddition}
       />
     </Box>
   );
