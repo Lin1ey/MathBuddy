@@ -10,7 +10,6 @@ import { Box, Button, Typography } from "@mui/material";
 
 function TimeChallengeOptions(props) {
   const [checked, setChecked] = React.useState(true);
-  const [button, setButton] = React.useState("Start");
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -77,19 +76,22 @@ function TimeChallengeTimer(props) {
 }
 
 function TimeChallenge() {
-  const defaultTime = 30;
+  const defaultTime = 3;
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(defaultTime);
 
+  // React.useEffect(() => {
+  //   const timer = time > 0 && setInterval(() => setTime(time - 1), 1000);
+  //   return () => clearInterval(timer);
+  // }, [time]);
+
   React.useEffect(() => {
     let interval = null;
 
-    if (isActive && isPaused === false) {
+    if (isActive === true) {
       interval = setInterval(() => {
         if (time < 1) {
-          setIsActive(false);
-          setIsPaused(true);
           clearInterval(interval);
         } else {
           setTime((time) => time - 1);
@@ -101,7 +103,7 @@ function TimeChallenge() {
     return () => {
       clearInterval(interval);
     };
-  }, [isActive, isPaused]);
+  }, [isActive, time]);
 
   const handleStart = () => {
     setIsActive(true);

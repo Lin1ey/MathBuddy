@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import MathProblem from "./MathProblem";
 import TimeChallenge from "./TimeChallenge";
-//<Divider orientation="vertical" />
+
 function HomePage() {
   return (
     <Box m={2}>
