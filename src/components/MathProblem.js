@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 function MathProblem(props) {
   const [answer, changeAnswer] = useState("");
@@ -7,7 +7,6 @@ function MathProblem(props) {
   const [textFieldLabel, changeTextFieldLabel] = useState("Answer Here!");
 
   function checkAns() {
-    console.log(props.checkAnswer(answer));
     return props.checkAnswer(answer)
   }
 

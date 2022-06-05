@@ -1,6 +1,6 @@
-import { Button, Container, Divider, Grid } from "@mui/material";
+import { Container, Divider, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MathProblem from "./MathProblem";
 import TimeChallenge from "./TimeChallenge";
 
@@ -9,6 +9,8 @@ function HomePage() {
   const [mathAnswer, changeAnswer] = useState(0);
   const [additionSign, changeAdditionSign] = useState(true);
   const [multiSign, changeMultiSign] = useState(false);
+  const [correctScore, setCorrectScore] = useState(0);
+  const [wrongScore, setWrongScore] = useState(0);
 
   const minNum = 1;
   const maxNum = 11;
@@ -37,38 +39,43 @@ function HomePage() {
     changeProblem(newProblem());
   }
 
-  function checkAnswer(answer) {
-    return mathAnswer.toString() === answer;
-  }
-
   function setAddition() {
     changeAdditionSign(!additionSign);
   }
   function setMulti() {
     changeMultiSign(!multiSign);
   }
-
-  function test() {
-    console.log(newProblem());
+  function resetScore() {
+    setCorrectScore(0);
+    setWrongScore(0);
   }
-  function test2() {
-    console.log(mathAnswer);
+
+  function answerCheck(answer) {
+    if (mathAnswer.toString() === answer) {
+      setCorrectScore(correctScore + 1);
+      return true;
+    } else {
+      setWrongScore(wrongScore + 1);
+      return false;
+    }
   }
 
   return (
     <Box m={2}>
       <Container maxWidth="xl">
-        <Button onClick={test}>TEST</Button>
-        <Button onClick={test2}>TEST2</Button>
-        {additionSign && <div>add</div>}
-        {multiSign && <div>multi</div>}
+        <Typography variant="h4" align="center">
+          Correct: {correctScore} Wrong: {wrongScore}
+        </Typography>
         <Box borderRadius={2} sx={{ border: 1, p: 2 }}>
           <Grid container columns={100}>
             <Grid item xs={20}>
               <TimeChallenge
                 setAddition={setAddition}
                 setMulti={setMulti}
+                addSign={additionSign}
+                multiSign={multiSign}
                 setNewProblem={setNewProblem}
+                resetScore={resetScore}
               />
             </Grid>
             <Grid item xs={1}>
@@ -77,7 +84,7 @@ function HomePage() {
             <Grid item xs={79}>
               <MathProblem
                 mathProblem={mathProblem}
-                checkAnswer={checkAnswer}
+                checkAnswer={answerCheck}
                 setNewProblem={setNewProblem}
               />
             </Grid>

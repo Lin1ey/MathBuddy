@@ -1,29 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import Checkbox from "@mui/material/Checkbox";
-import FormLabel from "@mui/material/FormLabel";
 import { Box, Button, Typography } from "@mui/material";
 
 function TimeChallengeOptions(props) {
-  const [checked, setChecked] = React.useState(true);
-
   function onStart() {
-    {props.handleStart()}
-    {props.setNewProblem()}
+    {
+      props.resetScore();
+    }
+    {
+      props.handleStart();
+    }
+    {
+      props.setNewProblem();
+    }
   }
 
   return (
     <Box borderRadius={2} sx={{ border: 1, p: 2 }}>
       {!props.active && (
-        <Button
-          variant="contained"
-          sx={{ width: "100%" }}
-          onClick={onStart}
-        >
+        <Button variant="contained" sx={{ width: "100%" }} onClick={onStart}>
           Start
         </Button>
       )}
@@ -38,14 +35,16 @@ function TimeChallengeOptions(props) {
       )}
       <FormGroup>
         <FormControlLabel
-          control={<Checkbox defaultChecked />}
+          control={<Checkbox />}
           label="Addition"
           onClick={props.setAddition}
+          checked={props.addSign}
         />
         <FormControlLabel
           control={<Checkbox />}
           label="Multiplication"
           onClick={props.setMulti}
+          checked={props.multiSign}
         />
       </FormGroup>
     </Box>
@@ -66,7 +65,7 @@ function TimeChallengeTimer(props) {
 }
 
 function TimeChallenge(props) {
-  const defaultTime = 10;
+  const defaultTime = 20;
   const [isActive, setIsActive] = useState(false);
   const [time, setTime] = useState(defaultTime);
 
@@ -77,6 +76,8 @@ function TimeChallenge(props) {
       interval = setInterval(() => {
         if (time < 1) {
           clearInterval(interval);
+          alert("Time's Up!");
+          handleStop();
         } else {
           setTime((time) => time - 1);
         }
@@ -108,6 +109,9 @@ function TimeChallenge(props) {
         setMulti={props.setMulti}
         setAddition={props.setAddition}
         setNewProblem={props.setNewProblem}
+        addSign={props.addSign}
+        multiSign={props.multiSign}
+        resetScore={props.resetScore}
       />
     </Box>
   );
