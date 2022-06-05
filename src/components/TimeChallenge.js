@@ -11,11 +11,10 @@ import { Box, Button, Typography } from "@mui/material";
 function TimeChallengeOptions(props) {
   const [checked, setChecked] = React.useState(true);
 
-  const handleChange = (event) => {
-    {
-      props.changeDifficulty(event.target.value);
-    }
-  };
+  function onStart() {
+    {props.handleStart()}
+    {props.setNewProblem()}
+  }
 
   return (
     <Box borderRadius={2} sx={{ border: 1, p: 2 }}>
@@ -23,7 +22,7 @@ function TimeChallengeOptions(props) {
         <Button
           variant="contained"
           sx={{ width: "100%" }}
-          onClick={props.handleStart}
+          onClick={onStart}
         >
           Start
         </Button>
@@ -67,7 +66,7 @@ function TimeChallengeTimer(props) {
 }
 
 function TimeChallenge(props) {
-  const defaultTime = 3;
+  const defaultTime = 10;
   const [isActive, setIsActive] = useState(false);
   const [time, setTime] = useState(defaultTime);
 
@@ -108,6 +107,7 @@ function TimeChallenge(props) {
         handleStop={handleStop}
         setMulti={props.setMulti}
         setAddition={props.setAddition}
+        setNewProblem={props.setNewProblem}
       />
     </Box>
   );

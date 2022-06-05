@@ -38,7 +38,7 @@ function HomePage() {
   }
 
   function checkAnswer(answer) {
-    return mathAnswer === answer;
+    return mathAnswer.toString() === answer;
   }
 
   function setAddition() {
@@ -50,7 +50,6 @@ function HomePage() {
 
   function test() {
     console.log(newProblem());
-  
   }
   function test2() {
     console.log(mathAnswer);
@@ -61,16 +60,26 @@ function HomePage() {
       <Container maxWidth="xl">
         <Button onClick={test}>TEST</Button>
         <Button onClick={test2}>TEST2</Button>
+        {additionSign && <div>add</div>}
+        {multiSign && <div>multi</div>}
         <Box borderRadius={2} sx={{ border: 1, p: 2 }}>
           <Grid container columns={100}>
             <Grid item xs={20}>
-              <TimeChallenge setAddition={setAddition} setMulti={setMulti} />
+              <TimeChallenge
+                setAddition={setAddition}
+                setMulti={setMulti}
+                setNewProblem={setNewProblem}
+              />
             </Grid>
             <Grid item xs={1}>
               <Divider orientation="vertical" />
             </Grid>
             <Grid item xs={79}>
-              <MathProblem mathProblem={mathProblem} />
+              <MathProblem
+                mathProblem={mathProblem}
+                checkAnswer={checkAnswer}
+                setNewProblem={setNewProblem}
+              />
             </Grid>
           </Grid>
         </Box>

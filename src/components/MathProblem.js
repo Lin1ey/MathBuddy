@@ -3,6 +3,13 @@ import React, { useEffect, useState } from "react";
 
 function MathProblem(props) {
   const [answer, changeAnswer] = useState("");
+  const [textFieldColor, changeTextFieldColor] = useState("");
+  const [textFieldLabel, changeTextFieldLabel] = useState("Answer Here!");
+
+  function checkAns() {
+    console.log(props.checkAnswer(answer));
+    return props.checkAnswer(answer)
+  }
 
   return (
     <Box
@@ -21,8 +28,9 @@ function MathProblem(props) {
         <Grid item xs={10}>
           <TextField
             id="outlined-basic"
-            label="Answer Here!"
-            variant="outlined"
+            label={textFieldLabel}
+            focused
+            color={textFieldColor}
             onChange={(e) => changeAnswer(e.target.value)}
             sx={{ width: "100%" }}
           />
@@ -37,12 +45,17 @@ function MathProblem(props) {
               } else if (!/^\d+$/.test(answer)) {
                 alert("Answer must be a number");
               } else {
-                if (answer === props.answer) {
+                if (checkAns()) {
                   //textbox glows green
+                  changeTextFieldColor("success");
+                  changeTextFieldLabel("Correct!");
                   //generate new problem
+                  {props.setNewProblem()}
                 }
                 else {
                   //textbox glows red
+                  changeTextFieldColor("warning");
+                  changeTextFieldLabel("Wrong!");
                 }
               }
             }}
